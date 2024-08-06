@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin NewsTEA</title>
+    <style>
+        body {
+            font-family: 'Calibri', sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #000000;
+        }
+        form {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ADD8E6;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #000000;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #0000CD;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #0000CD;
+            color: #F0F8FF;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin NewsTEA</h1>
+    <h2>Editar Conteúdo</h2>
+    <form id="adminForm">
+        <div class="form-group">
+            <label for="day">Dia:</label>
+            <input type="text" id="day" name="day" placeholder="Digite o número do dia (01-31)">
+        </div>
+        <div class="form-group">
+            <label for="highlightedImage">Imagem em Destaque (URL):</label>
+            <input type="text" id="highlightedImage" name="highlightedImage" placeholder="URL da imagem em destaque">
+        </div>
+        <div class="form-group">
+            <label for="highlightedTitle">Título em Destaque:</label>
+            <input type="text" id="highlightedTitle" name="highlightedTitle" placeholder="Título da matéria em destaque">
+        </div>
+        <div class="form-group">
+            <label for="highlightedSummary">Resumo em Destaque:</label>
+            <textarea id="highlightedSummary" name="highlightedSummary" rows="3" placeholder="Resumo da matéria em destaque"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="highlightedPortal">Portal em Destaque:</label>
+            <input type="text" id="highlightedPortal" name="highlightedPortal" placeholder="Nome do portal em destaque">
+        </div>
+        <div class="form-group">
+            <label for="highlightedDate">Data em Destaque:</label>
+            <input type="text" id="highlightedDate" name="highlightedDate" placeholder="Data da matéria em destaque">
+        </div>
+        <div class="form-group">
+            <label for="highlightedLink">Link em Destaque:</label>
+            <input type="text" id="highlightedLink" name="highlightedLink" placeholder="Link da matéria em destaque">
+        </div>
+        <hr>
+        <div id="newsFields"></div>
+        <button type="button" onclick="addNewsField()">Adicionar Matéria</button>
+        <button type="button" onclick="saveData()">Salvar</button>
+    </form>
+    <script>
+        let newsCount = 0;
+
+        function addNewsField() {
+            if (newsCount >= 20) return;
+
+            newsCount++;
+            const newsFields = document.getElementById('newsFields');
+            const newsItem = document.createElement('div');
+            newsItem.classList.add('form-group');
+            newsItem.innerHTML = `
+                <h3>Matéria ${newsCount}</h3>
+                <label for="newsImage${newsCount}">Imagem (URL):</label>
+                <input type="text" id="newsImage${newsCount}" name="newsImage${newsCount}" placeholder="URL da imagem">
+                <label for="newsTitle${newsCount}">Título:</label>
+                <input type="text" id="newsTitle${newsCount}" name="newsTitle${newsCount}" placeholder="Título da matéria">
+                <label for="newsSummary${newsCount}">Resumo:</label>
+                <textarea id="newsSummary${newsCount}" name="newsSummary${newsCount}" rows="3" placeholder="Resumo da matéria"></textarea>
+                <label for="newsPortal${newsCount}">Portal:</label>
+                <input type="text" id="newsPortal${newsCount}" name="newsPortal${newsCount}" placeholder="Nome do portal">
+                <label for="newsDate${newsCount}">Data:</label>
+                <input type="text" id="newsDate${newsCount}" name="newsDate${newsCount}" placeholder="Data da matéria">
+                <label for="newsLink${newsCount}">Link:</label>
+                <input type="text" id="newsLink${newsCount}" name="newsLink${newsCount}" placeholder="Link da matéria">
+                <hr>
+            `;
+            newsFields.appendChild(newsItem);
+        }
+
+        function saveData() {
+            const day = document.getElementById('day').value.padStart(2, '0');
+            const highlightedImage = document.getElementById('highlightedImage').value;
+            const highlightedTitle = document.getElementById('highlightedTitle').value;
+            const highlightedSummary = document.getElementById('highlightedSummary').value;
+            const highlightedPortal = document.getElementById('highlightedPortal').value;
+            const highlightedDate = document.getElementById('highlightedDate').value;
+            const highlightedLink = document.getElementById('highlightedLink').value;
+
+            const news = [];
+            for (let i = 1; i <= newsCount; i++) {
+                const image = document.getElementById(`newsImage${i}`).value;
+                const title = document.getElementById(`newsTitle${i}`).value;
+                const summary = document.getElementById(`newsSummary${i}`).value;
+                const portal = document.getElementById(`newsPortal${i}`).value;
+                const date = document.getElementById(`newsDate${i}`).value;
+                const link = document.getElementById(`newsLink${i}`).value;
+
+                if (title && summary && portal) {
+                    news.push({ image, title, summary, portal, date, link });
+                }
+            }
+
+            const newsData = JSON.parse(localStorage.getItem('newsData')) || {};
+            newsData[`day${day}`] = {
+                highlighted: { image: highlightedImage, title: highlightedTitle, summary: highlightedSummary, portal: highlightedPortal, date: highlightedDate, link: highlightedLink },
+                news
+            };
+            localStorage.setItem('newsData', JSON.stringify(newsData));
+            alert('Dados salvos com sucesso!');
+        }
+    </script>
+</body>
+</html>
