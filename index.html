@@ -16,6 +16,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
         }
         #logo {
             width: 70px;
@@ -120,103 +121,132 @@
         <img id="logo" src="https://blogger.googleusercontent.com/img/a/AVvXsEh40Eulpe-YZG7lV9fvJJRnmd9ZurKrH4GhrSzziAPiGdLqjuOX-xNDcYews2dBUpHqvfVozuL22ISDNktw8yMGvRPMkl6Ykc_KF7uQ87UiaVkT0o8fdYgcEaUWP6Y9oMSVDcQSkM8N-McMsNF_RO59R5z_-O2fDANLR8gF03M3LwcskULu_mwM6IVxe7nu=s814" alt="Logo">
         <div id="title-container">
             <h1>NewsTEA</h1>
-            <h2>Coletânea mensal de notícias gerais sobre o autismo</h2>
+            <h2>Notícias relacionadas ao autismo no último mês</h2>
         </div>
         <div id="controls">
             <select id="day-select" onchange="showContent()">
-                    <option value="01">01</option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-		    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
- 		    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                    <option value="25">25</option>
-                    <option value="26">26</option>
-                    <option value="27">27</option>
-                    <option value="28">28</option>
-                    <option value="29">29</option>
-                    <option value="30">30</option>
-                    <option value="31">31</option>
-                    <!-- Continue até o dia 31 -->
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
             </select>
-            <button id="back-button" onclick="goBackToApp()">Voltar ao app</button>
+            <button id="back-button" onclick="goBackToPreviousPage()">Voltar</button>
         </div>
     </header>
-    <div id="content"></div>
+
+    <input type="file" id="import-file" accept=".json" onchange="importData(event)" style="display: none;">
+    <button id="import-button" onclick="triggerImport()" style="display: none;">Importar Dados</button>
+
+    <div id="content">
+        <!-- Conteúdo será inserido aqui -->
+    </div>
+
     <script>
-        function goBackToApp() {
-            // Adicione a lógica para voltar ao app aqui
+        function goBackToPreviousPage() {
+            window.history.back();
         }
 
         function showContent() {
             const selectedDay = document.getElementById('day-select').value;
-            const content = document.getElementById('content');
             const newsData = JSON.parse(localStorage.getItem('newsData')) || {};
             const dayData = newsData[`day${selectedDay}`] || {};
-            content.innerHTML = '';
+
+            const contentDiv = document.getElementById('content');
+            contentDiv.innerHTML = '';
 
             if (dayData.highlighted) {
                 const highlighted = dayData.highlighted;
-                content.innerHTML += `
-                    <div class="highlighted">
-                        <img src="${highlighted.image}" alt="Imagem em Destaque">
-                        <div class="highlighted-text">
-                            <a href="${highlighted.link}" target="_blank">
-                                <h3>${highlighted.title}</h3>
-                                <p>${highlighted.summary}</p>
-                                <p class="portal">${highlighted.portal}</p>
-                                <p class="date">${highlighted.date}</p>
-                            </a>
-                        </div>
+                const highlightedDiv = document.createElement('div');
+                highlightedDiv.className = 'highlighted';
+                highlightedDiv.innerHTML = `
+                    <img src="${highlighted.image}" alt="${highlighted.title}">
+                    <div class="highlighted-text">
+                        <a href="${highlighted.link}" target="_blank">
+                            <h3>${highlighted.title}</h3>
+                            <p>${highlighted.summary}</p>
+                            <p><strong>${highlighted.portal}</strong> - <em>${highlighted.date}</em></p>
+                        </a>
                     </div>
                 `;
+                contentDiv.appendChild(highlightedDiv);
             }
 
             if (dayData.news) {
-                const news = dayData.news;
-                content.innerHTML += '<div class="news"></div>';
-                const newsContainer = content.querySelector('.news');
-
-                news.forEach(item => {
-                    if (item.title && item.summary && item.portal) {
-                        newsContainer.innerHTML += `
-                            <div class="news-item">
-                                <a href="${item.link}" target="_blank">
-                                    <img src="${item.image}" alt="Imagem da Matéria">
-                                    <h3>${item.title}</h3>
-                                    <p>${item.summary}</p>
-                                    <p class="portal">${item.portal}</p>
-                                    <p class="date">${item.date}</p>
-                                </a>
-                            </div>
-                        `;
-                    }
+                const newsDiv = document.createElement('div');
+                newsDiv.className = 'news';
+                dayData.news.forEach(newsItem => {
+                    const newsItemDiv = document.createElement('div');
+                    newsItemDiv.className = 'news-item';
+                    newsItemDiv.innerHTML = `
+                        <img src="${newsItem.image}" alt="${newsItem.title}">
+                        <div class="news-text">
+                            <a href="${newsItem.link}" target="_blank">
+                                <h3>${newsItem.title}</h3>
+                                <p>${newsItem.summary}</p>
+                                <p class="portal"><strong>${newsItem.portal}</strong></p>
+                                <p class="date"><em>${newsItem.date}</em></p>
+                            </a>
+                        </div>
+                    `;
+                    newsDiv.appendChild(newsItemDiv);
                 });
+                contentDiv.appendChild(newsDiv);
             }
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const newsData = JSON.parse(e.target.result);
+                localStorage.setItem('newsData', JSON.stringify(newsData));
+                showContent();
+            };
+            reader.readAsText(file);
+        }
+
+        function triggerImport() {
+            document.getElementById('import-file').click();
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date().getDate().toString().padStart(2, '0');
             document.getElementById('day-select').value = today;
             showContent();
+        });
+
+        // Tecla de atalho para importar dados (Ctrl + I)
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey && event.key === 'i') {
+                triggerImport();
+            }
         });
     </script>
 </body>
