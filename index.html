@@ -1,254 +1,399 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NewsTEA</title>
+    <title>Player de Música</title>
     <style>
         body {
-            font-family: 'Calibri', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #87CEEB;
-            padding: 10px 20px;
+            font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        #logo {
-            width: 70px;
-            height: 70px;
-        }
-        #title-container {
-            text-align: center;
-            flex-grow: 1;
-        }
-        #title-container h1, #title-container h2 {
+            justify-content: center;
+            height: 100vh;
             margin: 0;
-            color: #000000;
+            background-color: var(--bg-color, #f0f0f0);
+        }
+        #player {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        #currentTrack {
+            font-size: 1.2em;
+            margin-bottom: 15px;
         }
         #controls {
             display: flex;
-            align-items: center;
+            justify-content: space-around;
+            margin-top: 20px;
         }
-        #day-select, #back-button {
-            margin-left: 10px;
-            padding: 5px 10px;
-            border-radius: 5px;
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
             border: none;
-            background-color: #0000CD;
-            color: #F0F8FF;
+            border-radius: 5px;
             cursor: pointer;
-        }
-        #day-select {
-            padding: 5px;
-        }
-        #content {
-            padding: 40px;
-        }
-        .highlighted {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 40px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-        }
-        .highlighted img, .news img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-        .highlighted-text {
-            margin-left: 20px;
             flex: 1;
+            margin: 0 5px;
         }
-        .highlighted-text h3, .news-text h3 {
-            margin: 0;
-        }
-        .highlighted a, .news a {
-            text-decoration: none;
-            color: #000000;
-        }
-        .news {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .news-item {
-            width: calc(20% - 10px);
-            margin: 5px;
-            padding: 20px;
-            box-sizing: border-box;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-        }
-        .news-item img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-        .news-item h3, .news-item p, .news-item .portal, .news-item .date {
-            margin: 5px 0;
-        }
-        @media (max-width: 768px) {
-            .highlighted {
-                flex-direction: column;
-            }
-            .highlighted-text {
-                margin-left: 0;
-                margin-top: 10px;
-            }
-            .news-item {
-                width: calc(50% - 10px);
-            }
-        }
-        @media (max-width: 480px) {
-            .news-item {
-                width: calc(100% - 10px);
-            }
+        button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <header>
-        <img id="logo" src="https://blogger.googleusercontent.com/img/a/AVvXsEh40Eulpe-YZG7lV9fvJJRnmd9ZurKrH4GhrSzziAPiGdLqjuOX-xNDcYews2dBUpHqvfVozuL22ISDNktw8yMGvRPMkl6Ykc_KF7uQ87UiaVkT0o8fdYgcEaUWP6Y9oMSVDcQSkM8N-McMsNF_RO59R5z_-O2fDANLR8gF03M3LwcskULu_mwM6IVxe7nu=s814" alt="Logo">
-        <div id="title-container">
-            <h1>NewsTEA</h1>
-            <h2>Notícias relacionadas ao autismo no último mês</h2>
-        </div>
-        <div id="controls">
-            <select id="day-select" onchange="showContent()">
-                <option value="01">01</option>
-                <option value="02">02</option>
-                <option value="03">03</option>
-                <option value="04">04</option>
-                <option value="05">05</option>
-                <option value="06">06</option>
-                <option value="07">07</option>
-                <option value="08">08</option>
-                <option value="09">09</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20">20</option>
-                <option value="21">21</option>
-                <option value="22">22</option>
-                <option value="23">23</option>
-                <option value="24">24</option>
-                <option value="25">25</option>
-                <option value="26">26</option>
-                <option value="27">27</option>
-                <option value="28">28</option>
-                <option value="29">29</option>
-                <option value="30">30</option>
-                <option value="31">31</option>
-            </select>
-            <button id="back-button" onclick="goBackToPreviousPage()">Voltar</button>
-        </div>
-    </header>
 
-    <input type="file" id="import-file" accept=".json" onchange="importData(event)" style="display: none;">
-    <button id="import-button" onclick="triggerImport()" style="display: none;">Importar Dados</button>
 
-    <div id="content">
-        <!-- Conteúdo será inserido aqui -->
+<div style="text-align: center; margin-bottom: 10px;">
+    <img src="https://m.media-amazon.com/images/I/91xTtGsYo4L._UF1000,1000_QL80_.jpg" alt="Imagem da Cantora" style="width: 100px; border-radius: 50%;">
+</div>
+
+<div id="player">
+
+    <h2>Rádio Enya</h2>
+    <h4>Músicas gratuitas ilimitadas www.jango.com</h4>
+    <p id="currentTrack">Carregando...</p>
+    <audio id="audioPlayer" controls></audio>
+    <div id="controls">
+        <button id="prevBtn">Anterior</button>
+        <button id="playPauseBtn">Play/Pause</button>
+        <button id="nextBtn">Próxima</button>
     </div>
+</div>
 
-    <script>
-        function goBackToPreviousPage() {
-            window.history.back();
+<script>
+    const playlist = [
+        
+    {
+        "title": "I Want Tomorrow",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/05/20/07/0520072108.mp3"
+    },
+    {
+        "title": "March of the Celts",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/08/04/57/0804572890.mp3"
+    },
+    {
+        "title": "Fairytale",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/03/12/62/0312627020.mp3"
+    },
+    {
+        "title": "Triad St. Patrick Cú Chulainn Oisin",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/01/83/86/0183861221.mp3"
+    },
+    {
+        "title": "Portrait (Out of the Blue)",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/00/23/23/0023238446.mp3"
+    },
+    {
+        "title": "Boadicea",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/17/70/58/1770582298471357748.m4a"
+    },
+    {
+        "title": "Watermark",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/41/47/74/4147740902272012987.m4a"
+    },
+    {
+        "title": "Cursum Perficio",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/04/92/23/0492231527.mp3"
+    },
+    {
+        "title": "On Your Shore",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/04/87/36/0487366014.mp3"
+    },
+    {
+        "title": "Storms in Africa",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/25/36/77/2536771226851486384.m4a"
+    },
+    {
+        "title": "Exile",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/17/48/18/174818287533599606.m4a"
+    },
+    {
+        "title": "Orinoco Flow",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/62/68/51/626851622003071289.m4a"
+    },
+    {
+        "title": "Evening Falls",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/34/91/91/3491910010791578203.m4a"
+    },
+    {
+        "title": "River",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/07/88/32/0788320179.mp3"
+    },
+    {
+        "title": "The Longships",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/04/44/29/0444295676.mp3"
+    },
+    {
+        "title": "Shepherd Moons",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/12/11/93/1211930281.m4a"
+    },
+    {
+        "title": "Caribbean Blue",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/05/30/86/0530865221.m4a"
+    },
+    {
+        "title": "Ebudæ",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/39/28/50/3928507631726450107.m4a"
+    },
+    {
+        "title": "Angeles",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/19/50/09/1950095749.m4a"
+    },
+    {
+        "title": "No Holly for Miss Quinn",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/08/02/34/0802347357.m4a"
+    },
+    {
+        "title": "Book of Days",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/14/90/57/1490579285762343922.m4a"
+    },
+    {
+        "title": "Evacuee",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/07/89/85/0789856128.m4a"
+    },
+    {
+        "title": "Lothlorien",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/04/72/58/0472587582.m4a"
+    },
+    {
+        "title": "Marble Halls",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/17/51/08/1751082508.m4a"
+    },
+    {
+        "title": "Afer Ventus",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/05/09/15/0509152837.m4a"
+    },
+    {
+        "title": "Smaointe",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/26/64/56/2664560518326216339.m4a"
+    },
+    {
+        "title": "A Day Without Rain",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/43/16/32/4316321668147821252.m4a"
+    },
+    {
+        "title": "Wild Child",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/31/59/73/3159736114561251639.m4a"
+    },
+    {
+        "title": "Only Time",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/21/26/73/2126735501771635007.m4a"
+    },
+    {
+        "title": "Tempus Vernum",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/03/70/27/0370278836.mp3"
+    },
+    {
+        "title": "Flora's Secret",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/09/00/56/0900560899.mp3"
+    },
+    {
+        "title": "Fallen Embers",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/15/11/89/1511898435.mp3"
+    },
+    {
+        "title": "Silver Inches",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/17/78/28/1778287501.mp3"
+    },
+    {
+        "title": "Pilgrim",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/16/19/78/1619783871.mp3"
+    },
+    {
+        "title": "One by One",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/10/09/93/1009933249.mp3"
+    },
+    {
+        "title": "Lazy Days",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/21/46/22/2146226226.mp3"
+    },
+    {
+        "title": "Less Than a Pearl",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/06/76/43/0676436084.m4a"
+    },
+    {
+        "title": "Amarantine",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/08/33/14/0833140462.m4a"
+    },
+    {
+        "title": "It's in the Rain",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/08/18/03/0818034667.m4a"
+    },
+    {
+        "title": "If I Could Be Where You Are",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/32/38/94/3238948882.m4a"
+    },
+    {
+        "title": "The River Sings",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/46/02/92/4602928525.m4a"
+    },
+    {
+        "title": "Long Long Journey",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/45/26/64/4526648832.m4a"
+    },
+    {
+        "title": "Sumiregusa",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/25/97/77/2597770317.m4a"
+    },
+    {
+        "title": "Someone Said Goodbye",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/36/99/38/3699381014.m4a"
+    },
+    {
+        "title": "A Moment Lost",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/08/82/26/0882262439.m4a"
+    },
+    {
+        "title": "Drifting",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/27/17/01/2717010198.m4a"
+    },
+    {
+        "title": "Amid the Falling Snow",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/32/11/39/3211394898.m4a"
+    },
+    {
+        "title": "Water Shows the Hidden Heart",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/28/01/30/2801306974.m4a"
+    },
+    {
+        "title": "My! My! Time Flies!",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/36/95/91/3695912351.mp3"
+    }
+
+    ];
+
+    let currentTrackIndex = 0;
+    const audioPlayer = document.getElementById('audioPlayer');
+    const currentTrackElement = document.getElementById('currentTrack');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function updateTrackInfo() {
+        const track = playlist[currentTrackIndex];
+        currentTrackElement.textContent = `${track.artist} - ${track.title}`;
+    }
+
+    function loadTrack(index) {
+        if (index >= 0 && index < playlist.length) {
+            const track = playlist[index];
+            audioPlayer.src = track.url;
+            updateTrackInfo();
+            audioPlayer.play();
         }
+    }
 
-        function showContent() {
-            const selectedDay = document.getElementById('day-select').value;
-            const newsData = JSON.parse(localStorage.getItem('newsData')) || {};
-            const dayData = newsData[`day${selectedDay}`] || {};
+    function playNextTrack() {
+        currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+        loadTrack(currentTrackIndex);
+    }
 
-            const contentDiv = document.getElementById('content');
-            contentDiv.innerHTML = '';
+    function playPrevTrack() {
+        currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+        loadTrack(currentTrackIndex);
+    }
 
-            if (dayData.highlighted) {
-                const highlighted = dayData.highlighted;
-                const highlightedDiv = document.createElement('div');
-                highlightedDiv.className = 'highlighted';
-                highlightedDiv.innerHTML = `
-                    <img src="${highlighted.image}" alt="${highlighted.title}">
-                    <div class="highlighted-text">
-                        <a href="${highlighted.link}" target="_blank">
-                            <h3>${highlighted.title}</h3>
-                            <p>${highlighted.summary}</p>
-                            <p><strong>${highlighted.portal}</strong> - <em>${highlighted.date}</em></p>
-                        </a>
-                    </div>
-                `;
-                contentDiv.appendChild(highlightedDiv);
-            }
-
-            if (dayData.news) {
-                const newsDiv = document.createElement('div');
-                newsDiv.className = 'news';
-                dayData.news.forEach(newsItem => {
-                    const newsItemDiv = document.createElement('div');
-                    newsItemDiv.className = 'news-item';
-                    newsItemDiv.innerHTML = `
-                        <img src="${newsItem.image}" alt="${newsItem.title}">
-                        <div class="news-text">
-                            <a href="${newsItem.link}" target="_blank">
-                                <h3>${newsItem.title}</h3>
-                                <p>${newsItem.summary}</p>
-                                <p class="portal"><strong>${newsItem.portal}</strong></p>
-                                <p class="date"><em>${newsItem.date}</em></p>
-                            </a>
-                        </div>
-                    `;
-                    newsDiv.appendChild(newsItemDiv);
-                });
-                contentDiv.appendChild(newsDiv);
-            }
+    playPauseBtn.addEventListener('click', () => {
+        if (audioPlayer.paused) {
+            audioPlayer.play();
+        } else {
+            audioPlayer.pause();
         }
+    });
 
-        function importData(event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const newsData = JSON.parse(e.target.result);
-                localStorage.setItem('newsData', JSON.stringify(newsData));
-                showContent();
-            };
-            reader.readAsText(file);
-        }
+    nextBtn.addEventListener('click', playNextTrack);
+    prevBtn.addEventListener('click', playPrevTrack);
 
-        function triggerImport() {
-            document.getElementById('import-file').click();
-        }
+    audioPlayer.addEventListener('ended', playNextTrack);
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const today = new Date().getDate().toString().padStart(2, '0');
-            document.getElementById('day-select').value = today;
-            showContent();
+    // Carrega a primeira faixa ao iniciar
+    loadTrack(currentTrackIndex);
+
+    // Background adaptável
+    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    document.body.style.setProperty('--bg-color', darkModeMediaQuery.matches ? '#181818' : '#f0f0f0');
+    darkModeMediaQuery.addEventListener('change', event => {
+        document.body.style.setProperty('--bg-color', event.matches ? '#181818' : '#f0f0f0');
+    });
+
+    // Continuação da reprodução com tela bloqueada
+    if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: playlist[currentTrackIndex].title,
+            artist: playlist[currentTrackIndex].artist,
         });
 
-        // Tecla de atalho para importar dados (Ctrl + I)
-        document.addEventListener('keydown', function(event) {
-            if (event.ctrlKey && event.key === 'i') {
-                triggerImport();
-            }
+        navigator.mediaSession.setActionHandler('play', () => {
+            audioPlayer.play();
+            playPauseBtn.textContent = 'Pause';
         });
-    </script>
+
+        navigator.mediaSession.setActionHandler('pause', () => {
+            audioPlayer.pause();
+            playPauseBtn.textContent = 'Play';
+        });
+
+        navigator.mediaSession.setActionHandler('previoustrack', playPrevTrack);
+        navigator.mediaSession.setActionHandler('nexttrack', playNextTrack);
+    }
+</script>
+
 </body>
 </html>
