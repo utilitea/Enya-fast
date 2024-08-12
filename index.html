@@ -54,6 +54,13 @@
             width: 180px; /* Quase o dobro do tamanho anterior */
             border-radius: 15px; /* Borda arredondada, mas formato quadrado */
         }
+        a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -65,12 +72,12 @@
 <div id="player">
 
     <h2>Rádio Enya</h2>
-    <h4>Músicas gratuitas redirecionadas de www.jango.com</h4>
+    <h4>Músicas gratuitas redirecionadas de <a href="https://www.jango.com" target="_blank">www.jango.com</a></h4> <!-- Link clicável -->
     <p id="currentTrack">Carregando...</p>
-    <audio id="audioPlayer" controls></audio>
+    <audio id="audioPlayer" controls controlslist="nodownload"></audio> <!-- Adicionado controls e controlslist="nodownload" -->
     <div id="controls">
         <button id="prevBtn">Anterior</button>
-        <button id="playPauseBtn">Play/Pause</button>
+        <button id="playPauseBtn">Play</button> <!-- Inicialmente mostra "Play" -->
         <button id="nextBtn">Próxima</button>
     </div>
 </div>
@@ -344,6 +351,7 @@
             audioPlayer.src = track.url;
             updateTrackInfo();
             audioPlayer.play();
+            playPauseBtn.textContent = 'Pause'; // Atualiza o texto do botão
         }
     }
 
@@ -360,15 +368,17 @@
     playPauseBtn.addEventListener('click', () => {
         if (audioPlayer.paused) {
             audioPlayer.play();
+            playPauseBtn.textContent = 'Pause'; // Altera para "Pause" quando estiver tocando
         } else {
             audioPlayer.pause();
+            playPauseBtn.textContent = 'Play'; // Altera para "Play" quando estiver pausado
         }
     });
 
     nextBtn.addEventListener('click', playNextTrack);
     prevBtn.addEventListener('click', playPrevTrack);
 
-    audioPlayer.addEventListener('ended', playNextTrack);
+    audioPlayer.addEventListener('ended', playNextTrack); // Continua para a próxima música ao final
 
     loadTrack(currentTrackIndex);
 
