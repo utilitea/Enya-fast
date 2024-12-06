@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -13,7 +14,88 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background-color: var(--bg-color, #f0f0f0);
+            background-color: #ff0000; /* Cor inicial */
+            animation: rainbow 360s infinite; /* Animação de cores */
+        }
+        @keyframes rainbow {
+            0% {
+                background-color: #ff0000; /* Vermelho */
+            }
+            4% {
+                background-color: #ff3333; /* Vermelho claro */
+            }
+            8% {
+                background-color: #ffa500; /* Laranja */
+            }
+            12% {
+                background-color: #ffff00; /* Amarelo */
+            }
+            16% {
+                background-color: #ccff00; /* Amarelo verde */
+            }
+            20% {
+                background-color: #00ff00; /* Verde */
+            }
+            24% {
+                background-color: #00ccff; /* Verde azul */
+            }
+            28% {
+                background-color: #0000ff; /* Azul */
+            }
+            32% {
+                background-color: #4b0082; /* Anil */
+            }
+            36% {
+                background-color: #7a288a; /* Violeta */
+            }
+            40% {
+                background-color: #cc00cc; /* Rosa */
+            }
+            44% {
+                background-color: #ff66cc; /* Rosa claro */
+            }
+            48% {
+                background-color: #ff99cc; /* Rosa muito claro */
+            }
+            52% {
+                background-color: #ffccff; /* Branco rosa */
+            }
+            56% {
+                background-color: #ffffff; /* Branco */
+            }
+            60% {
+                background-color: #ccccff; /* Azul claro */
+            }
+            64% {
+                background-color: #9999ff; /* Azul médio */
+            }
+            68% {
+                background-color: #6666ff; /* Azul escuro */
+            }
+            72% {
+                background-color: #3333ff; /* Azul muito escuro */
+            }
+            76% {
+                background-color: #0000ff; /* Azul */
+            }
+            80% {
+                background-color: #4b0082; /* Anil */
+            }
+            84% {
+                background-color: #7a288a; /* Violeta */
+            }
+            88% {
+                background-color: #cc00cc; /* Rosa */
+            }
+            92% {
+                background-color: #ff66cc; /* Rosa claro */
+            }
+            96% {
+                background-color: #ff99cc; /* Rosa muito claro */
+            }
+            100% {
+                background-color: #ff0000; /* Vermelho */
+            }
         }
         #player {
             background: #fff;
@@ -30,29 +112,37 @@
         }
         #controls {
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .button-row {
+            display: flex;
             justify-content: space-around;
-            margin-top: 5px;
+            margin-bottom: 10px;
+            width: 100%;
         }
         button {
             padding: 10px 20px;
-            background-color: rgba(64, 224, 208, 0.8); /* Azul claro com leve transparência */
+            background-color: rgba(64, 224, 208, 0.8);
             color: black;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             flex: 1;
             margin: 0 5px;
+            font-size: 1em;
         }
         button:hover {
-            background-color: rgba(64, 224, 208, 0.9); /* Um pouco menos transparente ao passar o mouse */
+            background-color: rgba(64, 224, 208, 0.9);
         }
         .image-container {
             text-align: center;
-            margin-bottom: 20px; /* Aproxima a imagem do topo */
+            margin-bottom: 20px;
         }
         .image-container img {
-            width: 180px; /* Quase o dobro do tamanho anterior */
-            border-radius: 15px; /* Borda arredondada, mas formato quadrado */
+            width: 180px;
+            border-radius: 15px;
         }
         a {
             color: #1e90ff;
@@ -66,19 +156,24 @@
 <body>
 
 <div class="image-container">
-    <img src="https://m.media-amazon.com/images/I/91xTtGsYo4L._UF1000,1000_QL80_.jpg" alt="Imagem da Cantora">
+    <img src="https://album1.cdn107.com/b5/fe/b5fe4b1fb3f79463080f1a2e06de8e3b_xl.jpg" alt="Imagem da Cantora">
 </div>
 
 <div id="player">
 
-    <h2>Rádio Enya</h2>
-    <h4>Músicas gratuitas redirecionadas de <a href="https://www.jango.com" target="_blank">www.jango.com</a></h4> <!-- Link clicável -->
+    <h2>Medite ouvindo Enya</h2>
+    <h4>Músicas gratuitas redirecionadas de <a href="https://www.jango.com" target="_blank">www.jango.com</a>; visite para ouvir ilimitado</h4>
     <p id="currentTrack">Carregando...</p>
-    <audio id="audioPlayer" controls controlslist="nodownload"></audio> <!-- Adicionado controls e controlslist="nodownload" -->
+    <audio id="audioPlayer" controls controlslist="nodownload"></audio>
     <div id="controls">
-        <button id="prevBtn">Anterior</button>
-        <button id="playPauseBtn">Play</button> <!-- Inicialmente mostra "Play" -->
-        <button id="nextBtn">Próxima</button>
+        <div class="button-row">
+            <button id="prevBtn">Anterior</button>
+            <button id="nextBtn">Próxima</button>
+        </div>
+        <div class="button-row">
+            <button id="playPauseBtn">Play</button>
+            <button id="repeatBtn">Repetir</button>
+        </div>
     </div>
 </div>
 
@@ -86,327 +181,399 @@
     const playlist = [
         
     {
-        "title": "I Want Tomorrow",
+        "title": "01. I Want Tomorrow",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/05/20/07/0520072108.mp3"
     },
     {
-        "title": "March of the Celts",
+        "title": "02. March of the Celts",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/08/04/57/0804572890.mp3"
     },
     {
-        "title": "Fairytale",
+        "title": "03. Fairytale",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/03/12/62/0312627020.mp3"
     },
     {
-        "title": "Triad St. Patrick Cú Chulainn Oisin",
+        "title": "04. Triad St. Patrick Cú Chulainn Oisin",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/01/83/86/0183861221.mp3"
     },
     {
-        "title": "Portrait (Out of the Blue)",
+        "title": "05. Portrait (Out of the Blue)",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/00/23/23/0023238446.mp3"
     },
     {
-        "title": "Boadicea",
+        "title": "06. Boadicea",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/17/70/58/1770582298471357748.m4a"
     },
     {
-        "title": "Watermark",
+        "title": "07. Watermark",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/41/47/74/4147740902272012987.m4a"
     },
     {
-        "title": "Cursum Perficio",
+        "title": "08. Cursum Perficio",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/04/92/23/0492231527.mp3"
     },
     {
-        "title": "On Your Shore",
+        "title": "09. On Your Shore",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/04/87/36/0487366014.mp3"
     },
     {
-        "title": "Storms in Africa",
+        "title": "10. Storms in Africa",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/25/36/77/2536771226851486384.m4a"
     },
     {
-        "title": "Exile",
+        "title": "11. Exile",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/17/48/18/174818287533599606.m4a"
     },
     {
-        "title": "Orinoco Flow",
+        "title": "12. Orinoco Flow",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/62/68/51/626851622003071289.m4a"
     },
     {
-        "title": "Evening Falls",
+        "title": "13. Evening Falls",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/34/91/91/3491910010791578203.m4a"
     },
     {
-        "title": "River",
+        "title": "14. River",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/07/88/32/0788320179.mp3"
     },
     {
-        "title": "The Longships",
+        "title": "15. The Longships",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/04/44/29/0444295676.mp3"
     },
     {
-        "title": "Shepherd Moons",
+        "title": "16. Shepherd Moons",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/12/11/93/1211930281.m4a"
     },
     {
-        "title": "Caribbean Blue",
+        "title": "17. Caribbean Blue",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/05/30/86/0530865221.m4a"
     },
     {
-        "title": "Ebudæ",
+        "title": "18. Ebudæ",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/39/28/50/3928507631726450107.m4a"
     },
     {
-        "title": "Angeles",
+        "title": "19. Angeles",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/19/50/09/1950095749.m4a"
     },
     {
-        "title": "No Holly for Miss Quinn",
+        "title": "20. No Holly for Miss Quinn",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/08/02/34/0802347357.m4a"
     },
     {
-        "title": "Book of Days",
+        "title": "21. Book of Days",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/14/90/57/1490579285762343922.m4a"
     },
     {
-        "title": "Evacuee",
+        "title": "22. Evacuee",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/07/89/85/0789856128.m4a"
     },
     {
-        "title": "Lothlorien",
+        "title": "23. Lothlorien",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/04/72/58/0472587582.m4a"
     },
     {
-        "title": "Marble Halls",
+        "title": "24. Marble Halls",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/17/51/08/1751082508.m4a"
     },
     {
-        "title": "Afer Ventus",
+        "title": "25. Afer Ventus",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/05/09/15/0509152837.m4a"
     },
     {
-        "title": "Smaointe",
+        "title": "26. Smaointe",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/26/64/56/2664560518326216339.m4a"
     },
     {
-        "title": "A Day Without Rain",
+        "title": "27. A Day Without Rain",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/43/16/32/4316321668147821252.m4a"
     },
     {
-        "title": "Wild Child",
+        "title": "28. Wild Child",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/31/59/73/3159736114561251639.m4a"
     },
     {
-        "title": "Only Time",
+        "title": "29. Only Time",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/21/26/73/2126735501771635007.m4a"
     },
     {
-        "title": "Tempus Vernum",
+        "title": "30. Tempus Vernum",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/03/70/27/0370278836.mp3"
     },
     {
-        "title": "Flora's Secret",
+        "title": "31. Flora's Secret",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/09/00/56/0900560899.mp3"
     },
     {
-        "title": "Fallen Embers",
+        "title": "32. Fallen Embers",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/15/11/89/1511898435.mp3"
     },
     {
-        "title": "Silver Inches",
+        "title": "33. Silver Inches",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/17/78/28/1778287501.mp3"
     },
     {
-        "title": "Pilgrim",
+        "title": "34. Pilgrim",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/16/19/78/1619783871.mp3"
     },
     {
-        "title": "One by One",
+        "title": "35. One by One",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/10/09/93/1009933249.mp3"
     },
     {
-        "title": "Lazy Days",
+        "title": "36. Lazy Days",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/21/46/22/2146226226.mp3"
     },
     {
-        "title": "Less Than a Pearl",
+        "title": "37. Less Than a Pearl",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/06/76/43/0676436084.m4a"
     },
     {
-        "title": "Amarantine",
+        "title": "38. Amarantine",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/08/33/14/0833140462.m4a"
     },
     {
-        "title": "It's in the Rain",
+        "title": "39. It's in the Rain",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/08/18/03/0818034667.m4a"
     },
     {
-        "title": "If I Could Be Where You Are",
+        "title": "40. If I Could Be Where You Are",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/32/38/94/3238948882.m4a"
     },
     {
-        "title": "The River Sings",
+        "title": "41. The River Sings",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/46/02/92/4602928525.m4a"
     },
     {
-        "title": "Long Long Journey",
+        "title": "42. Long Long Journey",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/45/26/64/4526648832.m4a"
     },
     {
-        "title": "Sumiregusa",
+        "title": "43. Sumiregusa",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/25/97/77/2597770317.m4a"
     },
     {
-        "title": "Someone Said Goodbye",
+        "title": "44. Someone Said Goodbye",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/36/99/38/3699381014.m4a"
     },
     {
-        "title": "A Moment Lost",
+        "title": "45. A Moment Lost",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/08/82/26/0882262439.m4a"
     },
     {
-        "title": "Drifting",
+        "title": "46. Drifting",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/27/17/01/2717010198.m4a"
     },
     {
-        "title": "Amid the Falling Snow",
+        "title": "47. Amid the Falling Snow",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/32/11/39/3211394898.m4a"
     },
     {
-        "title": "Water Shows the Hidden Heart",
+        "title": "48. Water Shows the Hidden Heart",
         "artist": "Enya",
         "url": "https://m4a-64.jango.com/28/01/30/2801306974.m4a"
     },
     {
-        "title": "My! My! Time Flies!",
+        "title": "49. My! My! Time Flies!",
         "artist": "Enya",
         "url": "https://mp3-128.jango.com/music/36/95/91/3695912351.mp3"
-    }
-
+    },
+    {
+        "title": "50. The Comb Of The Winds",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/38/47/60/384760195773536521.m4a"
+    },
+    {
+        "title": "51. Journey Of The Angels",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/03/61/36/0361360326.m4a"
+    },
+    {
+        "title": "52. White Is In The Winter Night",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/02/40/26/0240262713.m4a"
+    },
+    {
+        "title": "53. Trains And Winter Rains",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/07/95/62/0795626260.m4a"
+    },
+    {
+        "title": "54. One Toy Soldier",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/07/65/82/0765822510.m4a"
+    },
+    {
+        "title": "55. The Memory of Trees",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/02/87/32/0287325259.mp3"
+    },
+    {
+        "title": "56. Anywhere Is",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/25/02/34/2502340159256350054.m4a"
+    },
+    {
+        "title": "57. Pax Deorum",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/25/82/27/2582278555889297558.m4a"
+    },
+    {
+        "title": "58. Athair Ar Neamh",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/23/21/08/2321089019088400181.m4a"
+    },
+    {
+        "title": "59. China Roses",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/19/94/54/1994545199333651727.m4a"
+    },
+    {
+        "title": "60. Hope Has a Place",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/32/58/96/3258964770194102160.m4a"
+    },
+    {
+        "title": "61. La Sonadora",
+        "artist": "Enya",
+        "url": "https://m4a-64.jango.com/14/86/14/1486145169563100851.m4a"
+    },
+    {
+        "title": "62. Paint The Sky With Stars",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/04/87/59/0487593440.mp3"
+    },
+    {
+        "title": "63. Only If",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/01/70/21/0170212337.mp3"
+    },
+    {
+        "title": "64. Aníron Theme Of Aragorn & Arwen",
+        "artist": "Enya",
+        "url": "https://mp3-128.jango.com/music/09/79/59/0979597121.mp3"
+    },
     ];
 
-    let currentTrackIndex = 0;
+    let currentIndex = 0;
+    let repeatEnabled = false;
+
     const audioPlayer = document.getElementById('audioPlayer');
-    const currentTrackElement = document.getElementById('currentTrack');
+    const currentTrack = document.getElementById('currentTrack');
     const playPauseBtn = document.getElementById('playPauseBtn');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-
-    function updateTrackInfo() {
-        const track = playlist[currentTrackIndex];
-        currentTrackElement.textContent = `${track.artist} - ${track.title}`;
-    }
+    const repeatBtn = document.getElementById('repeatBtn');
 
     function loadTrack(index) {
-        if (index >= 0 && index < playlist.length) {
-            const track = playlist[index];
-            audioPlayer.src = track.url;
-            updateTrackInfo();
-            audioPlayer.play();
-            playPauseBtn.textContent = 'Pause'; // Atualiza o texto do botão
-        }
+        const track = playlist[index];
+        if (!track) return;
+        audioPlayer.src = track.url;
+        currentTrack.textContent = `${track.title} - ${track.artist}`;
+        audioPlayer.load();
     }
 
-    function playNextTrack() {
-        currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
-        loadTrack(currentTrackIndex);
-    }
-
-    function playPrevTrack() {
-        currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
-        loadTrack(currentTrackIndex);
-    }
-
-    playPauseBtn.addEventListener('click', () => {
+    function togglePlayPause() {
         if (audioPlayer.paused) {
             audioPlayer.play();
-            playPauseBtn.textContent = 'Pause'; // Altera para "Pause" quando estiver tocando
+            playPauseBtn.textContent = 'Pause';
         } else {
             audioPlayer.pause();
-            playPauseBtn.textContent = 'Play'; // Altera para "Play" quando estiver pausado
-        }
-    });
-
-    nextBtn.addEventListener('click', playNextTrack);
-    prevBtn.addEventListener('click', playPrevTrack);
-
-    audioPlayer.addEventListener('ended', playNextTrack); // Continua para a próxima música ao final
-
-    loadTrack(currentTrackIndex);
-
-    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    document.body.style.setProperty('--bg-color', darkModeMediaQuery.matches ? '#181818' : '#f0f0f0');
-    darkModeMediaQuery.addEventListener('change', event => {
-        document.body.style.setProperty('--bg-color', event.matches ? '#181818' : '#f0f0f0');
-    });
-
-    if ('mediaSession' in navigator) {
-        navigator.mediaSession.metadata = new MediaMetadata({
-            title: playlist[currentTrackIndex].title,
-            artist: playlist[currentTrackIndex].artist,
-        });
-
-        navigator.mediaSession.setActionHandler('play', () => {
-            audioPlayer.play();
-            playPauseBtn.textContent = 'Pause';
-        });
-
-        navigator.mediaSession.setActionHandler('pause', () => {
-            audioPlayer.pause();
             playPauseBtn.textContent = 'Play';
+        }
+    }
+
+    function playPrevious() {
+        currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+        loadTrack(currentIndex);
+        audioPlayer.play();
+        playPauseBtn.textContent = 'Pause';
+    }
+
+    function playNext() {
+        if (repeatEnabled) {
+            currentIndex = (currentIndex + 1) % playlist.length;
+        } else {
+            if (currentIndex < playlist.length - 1) {
+                currentIndex++;
+            }
+        }
+        loadTrack(currentIndex);
+        audioPlayer.play();
+        playPauseBtn.textContent = 'Pause';
+    }
+
+    function toggleRepeat() {
+        repeatEnabled = !repeatEnabled;
+        if (repeatEnabled) {
+            repeatBtn.textContent = 'Desativar Repetição';
+        } else {
+            repeatBtn.textContent = 'Repetir';
+        }
+    }
+
+    playPauseBtn.addEventListener('click', togglePlayPause);
+    prevBtn.addEventListener('click', playPrevious);
+    nextBtn.addEventListener('click', playNext);
+    repeatBtn.addEventListener('click', toggleRepeat);
+
+    loadTrack(currentIndex);
+
+    audioPlayer.addEventListener('ended', function() {
+        if (repeatEnabled)
+
+if (repeatEnabled) {
+                playNext();
+            }
         });
 
-        navigator.mediaSession.setActionHandler('previoustrack', playPrevTrack);
-        navigator.mediaSession.setActionHandler('nexttrack', playNextTrack);
-    }
 </script>
 
 </body>
